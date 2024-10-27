@@ -8,14 +8,11 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float m_Speed = 0.1f;
     [SerializeField] private float m_TurnSmoothTime = 0.1f;
-    [SerializeField] private GameObject m_PNJCanvas;
 
     private Vector2 m_MoveVector;
     private float m_TurnSmoothVelocity;
     private CharacterController m_CharacterController;
     private Animator m_animator;
-    private bool m_IsInRange = false;
-    private bool isInteracting = false;
 
     private void Awake()
     {
@@ -31,20 +28,6 @@ public class PlayerController : MonoBehaviour
     public void ReadMoveInput(InputAction.CallbackContext context)
     {
         m_MoveVector = context.ReadValue<Vector2>();
-    }
-
-    public void ReadInteractInput(InputAction.CallbackContext context)
-    {
-        // Check if the player is in range of an NPC
-        if (context.performed && m_IsInRange && !isInteracting)
-        {
-            m_PNJCanvas.SetActive(true);
-            isInteracting = true;
-        } else if (context.performed && m_IsInRange && isInteracting)
-        {
-            m_PNJCanvas.SetActive(false);
-            isInteracting = false;
-        }
     }
 
     void Move()
@@ -74,25 +57,6 @@ public class PlayerController : MonoBehaviour
             // Change animation state to idle
             m_animator.SetBool("Idle", true);
             m_animator.SetBool("Run Forward", false);
-        }
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        // Check if the player is in range of an NPC
-        if (other.gameObject.tag == "NPC")
-        {
-            m_IsInRange = true;
-        }
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        // Check if the player is out of range of an NPC
-        if (other.gameObject.tag == "NPC")
-        {
-            m_IsInRange = false;
-            m_PNJCanvas.SetActive(false);
         }
     }
 }
