@@ -12,8 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5507a75223cd54177aea543a2e073001, type: 3}
   m_Name: SecondNPC
   m_EditorClassIdentifier: 
-  CapsulePositionX: -404.95
-  CapsulePositionY: -248.56
-  CapsulePositionZ: 0
-  NpcName: 
-  NpcDialog: 
+  name: SecondNPC
+  dialog: Hello i'm the SecondNPC
