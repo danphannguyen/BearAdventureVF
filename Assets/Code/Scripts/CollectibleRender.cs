@@ -6,23 +6,31 @@ using TMPro;
 
 public class CollectibleRender : MonoBehaviour
 {
-    [SerializeField] private GameObject m_CollectibleCanvas;
-    [SerializeField] private GameObject m_InteractCanvas;
+    [SerializeField] private GameObject m_CollectibleCanvas; // Canvas pour le dialogue
+    [SerializeField] private GameObject m_InteractCanvas; // Canvas pour le "Intéragir avec 'F' "
     [SerializeField] private GameObject wallToDisappear; // Mur spécifique à ce PNJ
 
     private bool m_IsInRange = false;
     private bool isInteracting = false;
 
+
+    // Référence uniquement définie pour les collectibles de type "Woodplank"
+    private Woodplank woodplankNpc;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        // Assigne `woodplankNpc` seulement si le collectible a le tag "Woodplank"
+        if (gameObject.tag == "Woodplank")
+        {
+            woodplankNpc = FindObjectOfType<Woodplank>();
+        }
     }
 
     public void ReadInteractInput(InputAction.CallbackContext context)
     {
-        // Check if the player is in range of an NPC
-        if (context.performed && m_IsInRange && !isInteracting)
+        // Vérifie si un player rentre dans la zone & que le MeshRenderer + Collider sont activé sur le collectible
+        if (context.performed && m_IsInRange && !isInteracting && GetComponent<MeshRenderer>().enabled && GetComponent<Collider>().enabled)
         {
 
             // Affiche le dialogue
@@ -35,14 +43,23 @@ public class CollectibleRender : MonoBehaviour
                 wallToDisappear.SetActive(false);
             }
 
-            // Faire disparaître le collectible
+            // Faire disparaître le collectible visuellement pour permettre de refermer la modal
             GetComponent<MeshRenderer>().enabled = false;
             GetComponent<Collider>().enabled = false;
+
             // Faire disparaître le "Intéragir avec 'F'" car c'est un collectible
             m_InteractCanvas.SetActive(false);
 
-        } else if (context.performed && m_IsInRange && isInteracting)
+            // Vérifie si le collectible est de type "woodplank" avant d'incrémenter le compteur
+            if (gameObject.tag == "Woodplank")
+            {
+                woodplankNpc.AddWoodplank();
+            }
+
+        }
+        else if (context.performed && m_IsInRange && isInteracting)
         {
+            // Sinon referme la modal & reinitialise isInteracting
             m_CollectibleCanvas.SetActive(false);
             isInteracting = false;
         }
@@ -50,8 +67,8 @@ public class CollectibleRender : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        // Check if the player is in range of an NPC
-        if (other.gameObject.tag == "Player")
+        // Vérifie si un player rentre dans la zone & que le MeshRenderer + Collider sont activé sur le collectible
+        if (other.gameObject.tag == "Player" && GetComponent<MeshRenderer>().enabled && GetComponent<Collider>().enabled)
         {
             // Debug.Log("player enter");
             m_IsInRange = true;
@@ -61,7 +78,7 @@ public class CollectibleRender : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        // Check if the player is out of range of an NPC
+        // Vérifie si le player quitte la zone
         if (other.gameObject.tag == "Player")
         {
             // Debug.Log("player exit");
