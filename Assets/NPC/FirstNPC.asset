@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: FirstNPC
   m_EditorClassIdentifier: 
   name: FirstNPC
-  dialog: Hello i'm the FirstNPC
+  dialog: Hello you ! Sorry but the bridge is broke and i need wood to repare it,
+    can you bring me 3 wood planks

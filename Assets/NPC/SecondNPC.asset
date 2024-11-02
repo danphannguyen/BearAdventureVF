@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: SecondNPC
   m_EditorClassIdentifier: 
   name: SecondNPC
-  dialog: Hello i'm the SecondNPC
+  dialog: Congratulation you pass the bridge !
