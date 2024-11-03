@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private float m_TurnSmoothVelocity;
     private CharacterController m_CharacterController;
     private Animator m_animator;
+    public Transform cam;
 
     private void Awake()
     {
@@ -37,14 +38,14 @@ public class PlayerController : MonoBehaviour
         if (direction.magnitude > 0.1f)
         {
             // Get direction angle from direction vector
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref m_TurnSmoothVelocity, m_TurnSmoothTime);
 
             // Rotate the player
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-            // Move the player
-            Vector3 moveDirection = direction;
+            // Move the player where the camera point
+            Vector3 moveDirection = Quaternion.Euler(0f, angle,0f) * Vector3.forward;
 
             // Apply the movement
             m_CharacterController.Move(moveDirection.normalized * m_Speed * Time.deltaTime);
