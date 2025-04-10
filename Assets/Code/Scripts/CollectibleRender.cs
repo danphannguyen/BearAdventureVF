@@ -17,7 +17,6 @@ public class CollectibleRender : MonoBehaviour
     // Référence uniquement définie pour les collectibles de type "Woodplank"
     private Woodplank woodplankNpc;
 
-    // Start is called before the first frame update
     void Start()
     {
         // Assigne `woodplankNpc` seulement si le collectible a le tag "Woodplank"
@@ -81,7 +80,6 @@ public class CollectibleRender : MonoBehaviour
         // Vérifie si le player quitte la zone
         if (other.gameObject.tag == "Player")
         {
-            // Debug.Log("player exit");
             m_IsInRange = false;
             m_CollectibleCanvas.SetActive(false);
             m_InteractCanvas.SetActive(false);

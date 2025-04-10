@@ -6,7 +6,6 @@ using UnityEngine;
 public class NpcController : ScriptableObject
 {
     // Créer les différents NPC
-
     [SerializeField] public string name;
     [SerializeField] public string dialog;
 

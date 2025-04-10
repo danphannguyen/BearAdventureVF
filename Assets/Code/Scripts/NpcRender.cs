@@ -15,11 +15,8 @@ public class NpcRender : MonoBehaviour
 
     private bool m_IsInRange = false;
     private bool isInteracting = false;
-
-    // Référence au script Woodplank
     private Woodplank woodplankNpc;
 
-    // Start is called before the first frame update
     void Start()
     {
         // Initialise les dialogues des NPC
@@ -67,7 +64,6 @@ public class NpcRender : MonoBehaviour
         // Vérifie si le player rentre dans la range du npc
         if (other.gameObject.tag == "Player")
         {
-            // Debug.Log("player enter");
             m_IsInRange = true;
             m_InteractCanvas.SetActive(true);
         }
@@ -79,7 +75,6 @@ public class NpcRender : MonoBehaviour
         // Vérifie si le player sort dans la range du npc
         if (other.gameObject.tag == "Player")
         {
-            // Debug.Log("player exit");
             m_IsInRange = false;
             m_PNJCanvas.SetActive(false);
             m_InteractCanvas.SetActive(false);
